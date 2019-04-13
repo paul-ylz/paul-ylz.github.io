@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Posts on paul-ylz</title>
+    <link>http://paul-ylz.github.io/posts/</link>
+    <description>Recent content in Posts on paul-ylz</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 05 Nov 2018 17:49:21 +0800</lastBuildDate>
+    
+	<atom:link href="http://paul-ylz.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Bluetooth</title>
+      <link>http://paul-ylz.github.io/posts/my-first-post/</link>
+      <pubDate>Mon, 05 Nov 2018 17:49:21 +0800</pubDate>
+      
+      <guid>http://paul-ylz.github.io/posts/my-first-post/</guid>
+      <description>sudo pacman -S bluez blues-utils Check stuff is unblocked with rfkill list</description>
+    </item>
+    
+  </channel>
+</rss>
