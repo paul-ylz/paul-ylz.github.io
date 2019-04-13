@@ -6,18 +6,68 @@
     <description>Recent content in Posts on paul-ylz</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 05 Nov 2018 17:49:21 +0800</lastBuildDate>
+    <lastBuildDate>Sat, 13 Apr 2019 17:32:26 +0800</lastBuildDate>
     
 	<atom:link href="http://paul-ylz.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
+      <title>Copying and Pasting in Arch linux with Suckless Simple Terminal</title>
+      <link>http://paul-ylz.github.io/posts/arch/suckless-copy-paste/</link>
+      <pubDate>Sat, 13 Apr 2019 17:32:26 +0800</pubDate>
+      
+      <guid>http://paul-ylz.github.io/posts/arch/suckless-copy-paste/</guid>
+      <description>Patch Simple Terminal so that there is just a single clipboard. https://st.suckless.org/patches/clipboard/
+If like me, you had never patched a C file before&amp;hellip;
+cd src/st-0.8.1 wget https://st.suckless.org/patches/clipboard/st-clipboard-0.8.1.diff patch &amp;lt; st-clipboard-0.8.1.diff Amazing!
+If like me, maybe you also weren&amp;rsquo;t aware that copy and paste inside ST uses the keys: Control-Shift C (copy) and Control-Shift V (paste)
+Install Chris Down&amp;rsquo;s clipmenu (AUR) clipnotify (AUR) is a dependency of clipmenu. With AUR, dependencies that are also AUR / community sourced have to be installed manually.</description>
+    </item>
+    
+    <item>
       <title>Bluetooth</title>
-      <link>http://paul-ylz.github.io/posts/my-first-post/</link>
+      <link>http://paul-ylz.github.io/posts/arch/bluetooth/</link>
       <pubDate>Mon, 05 Nov 2018 17:49:21 +0800</pubDate>
       
-      <guid>http://paul-ylz.github.io/posts/my-first-post/</guid>
+      <guid>http://paul-ylz.github.io/posts/arch/bluetooth/</guid>
       <description>sudo pacman -S bluez blues-utils Check stuff is unblocked with rfkill list</description>
+    </item>
+    
+    <item>
+      <title>Ethernet</title>
+      <link>http://paul-ylz.github.io/posts/arch/ethernet/</link>
+      <pubDate>Mon, 05 Nov 2018 17:49:21 +0800</pubDate>
+      
+      <guid>http://paul-ylz.github.io/posts/arch/ethernet/</guid>
+      <description>Ethernet does not necessarily work out of the box - in which case the lights on the ethernet port will not even blink. To enable: See ethernet devices
+$ ip link Then enable the ethernet device
+$ ip link set dev &amp;lt;devicename&amp;gt; up  is the one that looks something like &amp;ldquo;enp0s31f6&amp;rdquo;
+Then get DHCP working for that interface. I am able to just run
+% sudo dhcpcd </description>
+    </item>
+    
+    <item>
+      <title>Fonts in Arch</title>
+      <link>http://paul-ylz.github.io/posts/arch/font/</link>
+      <pubDate>Mon, 05 Nov 2018 17:49:21 +0800</pubDate>
+      
+      <guid>http://paul-ylz.github.io/posts/arch/font/</guid>
+      <description>It&amp;rsquo;s pretty easy to set font in the Virtual Console. pacman -S terminus-font setfont ter-v32n
+Voila, eyes saved.
+I found it a bit trickier setting the font within X / dwm / st.
+On the T460S I used X with dwm as the window manager, and st (simple terminal) to get the all important tty. Initially, the fonts inside my ttys were screwy - as in microscopic and also the kerning was totally wack.</description>
+    </item>
+    
+    <item>
+      <title>Installing Dropbox w Cryptomator</title>
+      <link>http://paul-ylz.github.io/posts/arch/dropbox-with-cryptomator/</link>
+      <pubDate>Mon, 05 Nov 2018 17:49:21 +0800</pubDate>
+      
+      <guid>http://paul-ylz.github.io/posts/arch/dropbox-with-cryptomator/</guid>
+      <description>https://wiki.archlinux.org/index.php/Dropbox
+pacman -S dropbox I just run Dropbox when I&amp;rsquo;m in Xorg, so using ~/.xinitrc:
+/usr/bin/dropbox &amp;amp; The next time you start X, Dropbox will pop open a browser to sign in with. After you sign in, ~/Dropbox will just automatically sync.
+Cryptomator lets you store encrypted vaults on Dropbox. Unlocked vaults are made available via webdav, so some type of webdav client is needed. I tried nautilus and it worked, so I am using that.</description>
     </item>
     
   </channel>

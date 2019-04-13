@@ -2617,8 +2617,6 @@ code, .code {
 
 /* Max Width String Properties */
 
-.mw-none { max-width: none; }
-
 @media screen and (min-width: 30em) {
   .mw-100-ns  { max-width: 100%; }
 
