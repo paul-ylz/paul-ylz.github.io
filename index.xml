@@ -6,10 +6,19 @@
     <description>Recent content on paul-ylz</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 13 Apr 2019 17:32:26 +0800</lastBuildDate>
+    <lastBuildDate>Tue, 16 Apr 2019 22:29:28 +0800</lastBuildDate>
     
 	<atom:link href="http://paul-ylz.github.io/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Squash &amp; Merge</title>
+      <link>http://paul-ylz.github.io/posts/software-dev/squash-rebase/</link>
+      <pubDate>Tue, 16 Apr 2019 22:29:28 +0800</pubDate>
+      
+      <guid>http://paul-ylz.github.io/posts/software-dev/squash-rebase/</guid>
+      <description>At work we do TBD (Trunk Based Development), which means that we always push code to the master branch. Sometimes, pushing to master is not convenient because we are in the middle of figuring out a solution and some wild trial and error is the only way we can figure out how to move forward. We often want others in our team to be able to join forces with us and help to figure out the problem, and so the most convenient thing to do is to push the existing state of our code.</description>
+    </item>
     
     <item>
       <title>Copying and Pasting in Arch linux with Suckless Simple Terminal</title>

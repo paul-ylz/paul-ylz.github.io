@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    
+    <title>paul-ylz  | Squash &amp; Merge</title>
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="generator" content="Hugo 0.55.0" />
+    
+    
+      <META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW">
+    
+
+    
+    
+      <link href="/dist/css/app.955516233bcafa4d2a1c13cea63c7b50.css" rel="stylesheet">
+    
+
+    
+
+    
+      
+    
+
+    
+
+    <meta property="og:title" content="Squash &amp; Merge" />
+<meta property="og:description" content="At work we do TBD (Trunk Based Development), which means that we always push code to the master branch. Sometimes, pushing to master is not convenient because we are in the middle of figuring out a solution and some wild trial and error is the only way we can figure out how to move forward. We often want others in our team to be able to join forces with us and help to figure out the problem, and so the most convenient thing to do is to push the existing state of our code." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://paul-ylz.github.io/posts/software-dev/squash-rebase/" />
+<meta property="article:published_time" content="2019-04-16T22:29:28&#43;08:00"/>
+<meta property="article:modified_time" content="2019-04-16T22:29:28&#43;08:00"/>
+
+<meta itemprop="name" content="Squash &amp; Merge">
+<meta itemprop="description" content="At work we do TBD (Trunk Based Development), which means that we always push code to the master branch. Sometimes, pushing to master is not convenient because we are in the middle of figuring out a solution and some wild trial and error is the only way we can figure out how to move forward. We often want others in our team to be able to join forces with us and help to figure out the problem, and so the most convenient thing to do is to push the existing state of our code.">
+
+
+<meta itemprop="datePublished" content="2019-04-16T22:29:28&#43;08:00" />
+<meta itemprop="dateModified" content="2019-04-16T22:29:28&#43;08:00" />
+<meta itemprop="wordCount" content="1012">
+
+
+
+<meta itemprop="keywords" content="" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Squash &amp; Merge"/>
+<meta name="twitter:description" content="At work we do TBD (Trunk Based Development), which means that we always push code to the master branch. Sometimes, pushing to master is not convenient because we are in the middle of figuring out a solution and some wild trial and error is the only way we can figure out how to move forward. We often want others in our team to be able to join forces with us and help to figure out the problem, and so the most convenient thing to do is to push the existing state of our code."/>
+
+  </head>
+
+  <body class="ma0 avenir bg-near-white">
+
+    
+   
+  
+
+  <header>
+    <div class="bg-black">
+      <nav class="pv3 ph3 ph4-ns" role="navigation">
+  <div class="flex-l justify-between items-center center">
+    <a href="http://paul-ylz.github.io/" class="f3 fw2 hover-white no-underline white-90 dib">
+      paul-ylz
+    </a>
+    <div class="flex-l items-center">
+      
+
+      
+      
+
+
+
+
+
+
+
+
+
+
+
+    </div>
+  </div>
+</nav>
+
+    </div>
+  </header>
+
+
+
+    <main class="pb7" role="main">
+      
+  
+  <article class="flex-l flex-wrap justify-between mw9 center ph3">
+
+    <header class="mt4 w-100">
+      <p class="f6 b helvetica tracked">
+          
+        POSTS
+      </p>
+      <h1 class="f1 athelas mb1">Squash &amp; Merge</h1>
+      
+      <time class="f6 mv4 dib tracked" datetime="2019-04-16T22:29:28&#43;08:00">April 16, 2019</time>      
+      
+      
+    </header>
+
+    <section class="nested-copy-line-height lh-copy serif f4 nested-links nested-img mid-gray pr4-l w-two-thirds-l">
+
+<p>At work we do TBD (Trunk Based Development), which means that we always push code to the master branch. Sometimes, pushing to master is not convenient because we are in the middle of figuring out a solution and some wild trial and error is the only way we can figure out how to move forward. We often want others in our team to be able to join forces with us and help to figure out the problem, and so the most convenient thing to do is to push the existing state of our code. However, when master branch is connected to a build pipeline, we find ourselves wanting to create an experimental branch to work on. Typically this branch is going to have several commits, with terrible commit messages which tell the story of our desperate attempts to fix a tricky task.</p>
+
+<p>In this case, all is not lost and we can still maintain some level of dignity by squashing these commits into a single commit and then merging our experimental branch to master so that it looks like a single, tidy commit. Squash and merge is the strategy!</p>
+
+<h2 id="example">Example</h2>
+
+<p>Let&rsquo;s say you&rsquo;re on the <code>apple</code> branch where you have made 4 commits you wish would disappear.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">% git log --graph --decorate --oneline
+
+ed6944 <span style="color:#f92672">(</span>HEAD -&gt; apple, origin/apple<span style="color:#f92672">)</span> running out of good commit messages
+* e9340ff the commit messages tend to get worse on the experimental branch
+* 00b9de0 updated readme again
+* d77388a first experimental change
+* 7add34f ABC-1 | Updated project summary to readme  <span style="color:#75715e"># the last &#34;good&#34; commit</span>
+* a1519c5 Initial commit
+~
+~
+~</code></pre></div>
+<p>We want to be checked out on the apple branch and do an interactive rebase with the SHA of the last good commit.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">% git checkout apple
+% git rebase -i 7add34f</code></pre></div>
+<p>which pops us into vim:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-VimL" data-lang="VimL"><span style="color:#a6e22e">pick</span> <span style="color:#a6e22e">d77388a</span> <span style="color:#a6e22e">first</span> <span style="color:#a6e22e">experimental</span> <span style="color:#a6e22e">change</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#a6e22e">pick</span> <span style="color:#ae81ff">00</span><span style="color:#a6e22e">b9de0</span> <span style="color:#a6e22e">updated</span> <span style="color:#a6e22e">readme</span> <span style="color:#a6e22e">again</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#a6e22e">pick</span> <span style="color:#a6e22e">e9340ff</span> <span style="color:#a6e22e">the</span> <span style="color:#a6e22e">commit</span> <span style="color:#a6e22e">messages</span> <span style="color:#a6e22e">tend</span> <span style="color:#a6e22e">to</span> <span style="color:#a6e22e">get</span> <span style="color:#a6e22e">worse</span> <span style="color:#a6e22e">on</span> <span style="color:#a6e22e">the</span> <span style="color:#a6e22e">experimental</span> <span style="color:#a6e22e">branch</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#a6e22e">pick</span> <span style="color:#a6e22e">aed6944</span> <span style="color:#a6e22e">running</span> <span style="color:#a6e22e">out</span> <span style="color:#a6e22e">of</span> <span style="color:#a6e22e">good</span> <span style="color:#a6e22e">commit</span> <span style="color:#a6e22e">messages</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span># <span style="color:#a6e22e">Rebase</span> <span style="color:#ae81ff">7</span><span style="color:#a6e22e">add34f</span>..<span style="color:#a6e22e">aed6944</span> <span style="color:#a6e22e">onto</span> <span style="color:#ae81ff">7</span><span style="color:#a6e22e">add34f</span> (<span style="color:#ae81ff">4</span> <span style="color:#a6e22e">commands</span>)<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span>#<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span># <span style="color:#a6e22e">Commands</span>:<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span># <span style="color:#a6e22e">p</span>, <span style="color:#a6e22e">pick</span> = <span style="color:#a6e22e">use</span> <span style="color:#a6e22e">commit</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span># <span style="color:#a6e22e">r</span>, <span style="color:#a6e22e">reword</span> = <span style="color:#a6e22e">use</span> <span style="color:#a6e22e">commit</span>, <span style="color:#a6e22e">but</span> <span style="color:#a6e22e">edit</span> <span style="color:#a6e22e">the</span> <span style="color:#a6e22e">commit</span> <span style="color:#a6e22e">message</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span># <span style="color:#a6e22e">e</span>, <span style="color:#a6e22e">edit</span> = <span style="color:#a6e22e">use</span> <span style="color:#a6e22e">commit</span>, <span style="color:#a6e22e">but</span> <span style="color:#a6e22e">stop</span> <span style="color:#a6e22e">for</span> <span style="color:#a6e22e">amending</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span># <span style="color:#a6e22e">s</span>, <span style="color:#a6e22e">squash</span> = <span style="color:#a6e22e">use</span> <span style="color:#a6e22e">commit</span>, <span style="color:#a6e22e">but</span> <span style="color:#a6e22e">meld</span> <span style="color:#a6e22e">into</span> <span style="color:#a6e22e">previous</span> <span style="color:#a6e22e">commit</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span># <span style="color:#a6e22e">f</span>, <span style="color:#a6e22e">fixup</span> = <span style="color:#a6e22e">like</span><span style="color:#75715e"> &#34;squash&#34;, but discard this commit&#39;s log message</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span># <span style="color:#a6e22e">x</span>, <span style="color:#a6e22e">exec</span> = <span style="color:#a6e22e">run</span> <span style="color:#a6e22e">command</span> (<span style="color:#a6e22e">the</span> <span style="color:#a6e22e">rest</span> <span style="color:#a6e22e">of</span> <span style="color:#a6e22e">the</span> <span style="color:#a6e22e">line</span>) <span style="color:#a6e22e">using</span> <span style="color:#a6e22e">shell</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span># <span style="color:#a6e22e">d</span>, <span style="color:#a6e22e">drop</span> = <span style="color:#a6e22e">remove</span> <span style="color:#a6e22e">commit</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span>#<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span># <span style="color:#a6e22e">These</span> <span style="color:#a6e22e">lines</span> <span style="color:#a6e22e">can</span> <span style="color:#a6e22e">be</span> <span style="color:#a6e22e">re</span>-<span style="color:#a6e22e">ordered</span>; <span style="color:#a6e22e">they</span> <span style="color:#a6e22e">are</span> <span style="color:#a6e22e">executed</span> <span style="color:#a6e22e">from</span> <span style="color:#a6e22e">top</span> <span style="color:#a6e22e">to</span> <span style="color:#a6e22e">bottom</span>.<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span>#<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span># <span style="color:#a6e22e">If</span> <span style="color:#a6e22e">you</span> <span style="color:#a6e22e">remove</span> <span style="color:#a6e22e">a</span> <span style="color:#a6e22e">line</span> <span style="color:#a6e22e">here</span> <span style="color:#a6e22e">THAT</span> <span style="color:#a6e22e">COMMIT</span> <span style="color:#a6e22e">WILL</span> <span style="color:#a6e22e">BE</span> <span style="color:#a6e22e">LOST</span>.<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span>#<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span># <span style="color:#a6e22e">However</span>, <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">you</span> <span style="color:#a6e22e">remove</span> <span style="color:#a6e22e">everything</span>, <span style="color:#a6e22e">the</span> <span style="color:#a6e22e">rebase</span> <span style="color:#a6e22e">will</span> <span style="color:#a6e22e">be</span> <span style="color:#a6e22e">aborted</span>.<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span>#<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span># <span style="color:#a6e22e">Note</span> <span style="color:#a6e22e">that</span> <span style="color:#a6e22e">empty</span> <span style="color:#a6e22e">commits</span> <span style="color:#a6e22e">are</span> <span style="color:#a6e22e">commented</span> <span style="color:#a6e22e">out</span></code></pre></div>
+<p>We want to squash these 4 commits into one and then have an opportunity to write a quality commit message. We&rsquo;ll leave the first as &ldquo;pick&rdquo; and change the latter 3 to squash. By the way, Vim lets you change multiple lines in one go&hellip; use Cntrl-V for block visual, &ldquo;j&rdquo; to go down as many rows as you need to change, &ldquo;c&rdquo; to change and then type the characters you want, say &ldquo;squash&rdquo;. Only the first row will reflect changes at first, but when you escape out of insert mode, the other lines will update with the same changes.</p>
+
+<p>So we now have:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-VimL" data-lang="VimL"><span style="color:#a6e22e">pick</span> <span style="color:#a6e22e">d77388a</span> <span style="color:#a6e22e">first</span> <span style="color:#a6e22e">experimental</span> <span style="color:#a6e22e">change</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#a6e22e">squash</span> <span style="color:#ae81ff">00</span><span style="color:#a6e22e">b9de0</span> <span style="color:#a6e22e">updated</span> <span style="color:#a6e22e">readme</span> <span style="color:#a6e22e">again</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#a6e22e">squash</span> <span style="color:#a6e22e">e9340ff</span> <span style="color:#a6e22e">the</span> <span style="color:#a6e22e">commit</span> <span style="color:#a6e22e">messages</span> <span style="color:#a6e22e">tend</span> <span style="color:#a6e22e">to</span> <span style="color:#a6e22e">get</span> <span style="color:#a6e22e">worse</span> <span style="color:#a6e22e">on</span> <span style="color:#a6e22e">the</span> <span style="color:#a6e22e">experimental</span> <span style="color:#a6e22e">branch</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#a6e22e">squash</span> <span style="color:#a6e22e">aed6944</span> <span style="color:#a6e22e">running</span> <span style="color:#a6e22e">out</span> <span style="color:#a6e22e">of</span> <span style="color:#a6e22e">good</span> <span style="color:#a6e22e">commit</span> <span style="color:#a6e22e">messages</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span># <span style="color:#a6e22e">Rebase</span> <span style="color:#ae81ff">7</span><span style="color:#a6e22e">add34f</span>..<span style="color:#a6e22e">aed6944</span> <span style="color:#a6e22e">onto</span> <span style="color:#ae81ff">7</span><span style="color:#a6e22e">add34f</span> (<span style="color:#ae81ff">4</span> <span style="color:#a6e22e">commands</span>)<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span>#<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span># <span style="color:#a6e22e">Commands</span>:<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span># <span style="color:#a6e22e">p</span>, <span style="color:#a6e22e">pick</span> = <span style="color:#a6e22e">use</span> <span style="color:#a6e22e">commit</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span># <span style="color:#a6e22e">r</span>, <span style="color:#a6e22e">reword</span> = <span style="color:#a6e22e">use</span> <span style="color:#a6e22e">commit</span>, <span style="color:#a6e22e">but</span> <span style="color:#a6e22e">edit</span> <span style="color:#a6e22e">the</span> <span style="color:#a6e22e">commit</span> <span style="color:#a6e22e">message</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span># <span style="color:#a6e22e">e</span>, <span style="color:#a6e22e">edit</span> = <span style="color:#a6e22e">use</span> <span style="color:#a6e22e">commit</span>, <span style="color:#a6e22e">but</span> <span style="color:#a6e22e">stop</span> <span style="color:#a6e22e">for</span> <span style="color:#a6e22e">amending</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span># <span style="color:#a6e22e">s</span>, <span style="color:#a6e22e">squash</span> = <span style="color:#a6e22e">use</span> <span style="color:#a6e22e">commit</span>, <span style="color:#a6e22e">but</span> <span style="color:#a6e22e">meld</span> <span style="color:#a6e22e">into</span> <span style="color:#a6e22e">previous</span> <span style="color:#a6e22e">commit</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span># <span style="color:#a6e22e">f</span>, <span style="color:#a6e22e">fixup</span> = <span style="color:#a6e22e">like</span><span style="color:#75715e"> &#34;squash&#34;, but discard this commit&#39;s log message</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span># <span style="color:#a6e22e">x</span>, <span style="color:#a6e22e">exec</span> = <span style="color:#a6e22e">run</span> <span style="color:#a6e22e">command</span> (<span style="color:#a6e22e">the</span> <span style="color:#a6e22e">rest</span> <span style="color:#a6e22e">of</span> <span style="color:#a6e22e">the</span> <span style="color:#a6e22e">line</span>) <span style="color:#a6e22e">using</span> <span style="color:#a6e22e">shell</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span># <span style="color:#a6e22e">d</span>, <span style="color:#a6e22e">drop</span> = <span style="color:#a6e22e">remove</span> <span style="color:#a6e22e">commit</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span>#<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span># <span style="color:#a6e22e">These</span> <span style="color:#a6e22e">lines</span> <span style="color:#a6e22e">can</span> <span style="color:#a6e22e">be</span> <span style="color:#a6e22e">re</span>-<span style="color:#a6e22e">ordered</span>; <span style="color:#a6e22e">they</span> <span style="color:#a6e22e">are</span> <span style="color:#a6e22e">executed</span> <span style="color:#a6e22e">from</span> <span style="color:#a6e22e">top</span> <span style="color:#a6e22e">to</span> <span style="color:#a6e22e">bottom</span>.<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span>#<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span># <span style="color:#a6e22e">If</span> <span style="color:#a6e22e">you</span> <span style="color:#a6e22e">remove</span> <span style="color:#a6e22e">a</span> <span style="color:#a6e22e">line</span> <span style="color:#a6e22e">here</span> <span style="color:#a6e22e">THAT</span> <span style="color:#a6e22e">COMMIT</span> <span style="color:#a6e22e">WILL</span> <span style="color:#a6e22e">BE</span> <span style="color:#a6e22e">LOST</span>.<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span>#<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span># <span style="color:#a6e22e">However</span>, <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">you</span> <span style="color:#a6e22e">remove</span> <span style="color:#a6e22e">everything</span>, <span style="color:#a6e22e">the</span> <span style="color:#a6e22e">rebase</span> <span style="color:#a6e22e">will</span> <span style="color:#a6e22e">be</span> <span style="color:#a6e22e">aborted</span>.<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span>#<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span># <span style="color:#a6e22e">Note</span> <span style="color:#a6e22e">that</span> <span style="color:#a6e22e">empty</span> <span style="color:#a6e22e">commits</span> <span style="color:#a6e22e">are</span> <span style="color:#a6e22e">commented</span> <span style="color:#a6e22e">out</span></code></pre></div>
+<p><code>:wq</code> to write and quit.</p>
+
+<p>Now git gives us a change to rewrite our commit messages. We&rsquo;ll condense our hasty messages into an official and officious commit message that exudes quality.</p>
+
+<p>BEFORE:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-VimL" data-lang="VimL"># <span style="color:#a6e22e">This</span> <span style="color:#a6e22e">is</span> <span style="color:#a6e22e">a</span> <span style="color:#a6e22e">combination</span> <span style="color:#a6e22e">of</span> <span style="color:#ae81ff">4</span> <span style="color:#a6e22e">commits</span>.<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span># <span style="color:#a6e22e">This</span> <span style="color:#a6e22e">is</span> <span style="color:#a6e22e">the</span> <span style="color:#ae81ff">1</span><span style="color:#a6e22e">st</span> <span style="color:#a6e22e">commit</span> <span style="color:#a6e22e">message</span>:<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#a6e22e">first</span> <span style="color:#a6e22e">experimental</span> <span style="color:#a6e22e">change</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span># <span style="color:#a6e22e">This</span> <span style="color:#a6e22e">is</span> <span style="color:#a6e22e">the</span> <span style="color:#a6e22e">commit</span> <span style="color:#a6e22e">message</span> #<span style="color:#ae81ff">2</span>:<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#a6e22e">updated</span> <span style="color:#a6e22e">readme</span> <span style="color:#a6e22e">again</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span># <span style="color:#a6e22e">This</span> <span style="color:#a6e22e">is</span> <span style="color:#a6e22e">the</span> <span style="color:#a6e22e">commit</span> <span style="color:#a6e22e">message</span> #<span style="color:#ae81ff">3</span>:<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#a6e22e">the</span> <span style="color:#a6e22e">commit</span> <span style="color:#a6e22e">messages</span> <span style="color:#a6e22e">tend</span> <span style="color:#a6e22e">to</span> <span style="color:#a6e22e">get</span> <span style="color:#a6e22e">worse</span> <span style="color:#a6e22e">on</span> <span style="color:#a6e22e">the</span> <span style="color:#a6e22e">experimental</span> <span style="color:#a6e22e">branch</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span># <span style="color:#a6e22e">This</span> <span style="color:#a6e22e">is</span> <span style="color:#a6e22e">the</span> <span style="color:#a6e22e">commit</span> <span style="color:#a6e22e">message</span> #<span style="color:#ae81ff">4</span>:<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#a6e22e">running</span> <span style="color:#a6e22e">out</span> <span style="color:#a6e22e">of</span> <span style="color:#a6e22e">good</span> <span style="color:#a6e22e">commit</span> <span style="color:#a6e22e">messages</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span># <span style="color:#a6e22e">Please</span> <span style="color:#a6e22e">enter</span> <span style="color:#a6e22e">the</span> <span style="color:#a6e22e">commit</span> <span style="color:#a6e22e">message</span> <span style="color:#a6e22e">for</span> <span style="color:#a6e22e">your</span> <span style="color:#a6e22e">changes</span>. <span style="color:#a6e22e">Lines</span> <span style="color:#a6e22e">starting</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span># <span style="color:#a6e22e">with</span> <span style="color:#e6db74">&#39;#&#39;</span> <span style="color:#a6e22e">will</span> <span style="color:#a6e22e">be</span> <span style="color:#a6e22e">ignored</span>, <span style="color:#a6e22e">and</span> <span style="color:#a6e22e">an</span> <span style="color:#a6e22e">empty</span> <span style="color:#a6e22e">message</span> <span style="color:#a6e22e">aborts</span> <span style="color:#a6e22e">the</span> <span style="color:#a6e22e">commit</span>.<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span>#<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span># <span style="color:#a6e22e">Date</span>:      <span style="color:#a6e22e">Tue</span> <span style="color:#a6e22e">Apr</span> <span style="color:#ae81ff">16</span> <span style="color:#ae81ff">22</span>:<span style="color:#ae81ff">11</span>:<span style="color:#ae81ff">55</span> <span style="color:#ae81ff">2019</span> +<span style="color:#ae81ff">0800</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span>#<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span># <span style="color:#a6e22e">interactive</span> <span style="color:#a6e22e">rebase</span> <span style="color:#a6e22e">in</span> <span style="color:#a6e22e">progress</span>; <span style="color:#a6e22e">onto</span> <span style="color:#ae81ff">7</span><span style="color:#a6e22e">add34f</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span># <span style="color:#a6e22e">Last</span> <span style="color:#a6e22e">commands</span> <span style="color:#a6e22e">done</span> (<span style="color:#ae81ff">4</span> <span style="color:#a6e22e">commands</span> <span style="color:#a6e22e">done</span>):<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span>#    <span style="color:#a6e22e">squash</span> <span style="color:#a6e22e">e9340ff</span> <span style="color:#a6e22e">the</span> <span style="color:#a6e22e">commit</span> <span style="color:#a6e22e">messages</span> <span style="color:#a6e22e">tend</span> <span style="color:#a6e22e">to</span> <span style="color:#a6e22e">get</span> <span style="color:#a6e22e">worse</span> <span style="color:#a6e22e">on</span> <span style="color:#a6e22e">the</span> <span style="color:#a6e22e">experimental</span> <span style="color:#a6e22e">branch</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span>#    <span style="color:#a6e22e">squash</span> <span style="color:#a6e22e">aed6944</span> <span style="color:#a6e22e">running</span> <span style="color:#a6e22e">out</span> <span style="color:#a6e22e">of</span> <span style="color:#a6e22e">good</span> <span style="color:#a6e22e">commit</span> <span style="color:#a6e22e">messages</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span># <span style="color:#a6e22e">No</span> <span style="color:#a6e22e">commands</span> <span style="color:#a6e22e">remaining</span>.<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span># <span style="color:#a6e22e">You</span> <span style="color:#a6e22e">are</span> <span style="color:#a6e22e">currently</span> <span style="color:#a6e22e">rebasing</span> <span style="color:#a6e22e">branch</span> <span style="color:#e6db74">&#39;apple&#39;</span> <span style="color:#a6e22e">on</span> <span style="color:#e6db74">&#39;7add34f&#39;</span>.<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span>#<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span># <span style="color:#a6e22e">Changes</span> <span style="color:#a6e22e">to</span> <span style="color:#a6e22e">be</span> <span style="color:#a6e22e">committed</span>:<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span>#       <span style="color:#a6e22e">modified</span>:   <span style="color:#a6e22e">README</span>.<span style="color:#a6e22e">md</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span>#</code></pre></div>
+<p>AFTER:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-VimL" data-lang="VimL"><span style="color:#a6e22e">ABC</span><span style="color:#ae81ff">-2</span> | <span style="color:#a6e22e">Added</span> <span style="color:#a6e22e">sample</span> <span style="color:#a6e22e">lines</span> <span style="color:#a6e22e">to</span> <span style="color:#a6e22e">readme</span> <span style="color:#a6e22e">for</span> <span style="color:#a6e22e">example</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span># <span style="color:#a6e22e">Please</span> <span style="color:#a6e22e">enter</span> <span style="color:#a6e22e">the</span> <span style="color:#a6e22e">commit</span> <span style="color:#a6e22e">message</span> <span style="color:#a6e22e">for</span> <span style="color:#a6e22e">your</span> <span style="color:#a6e22e">changes</span>. <span style="color:#a6e22e">Lines</span> <span style="color:#a6e22e">starting</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span># <span style="color:#a6e22e">with</span> <span style="color:#e6db74">&#39;#&#39;</span> <span style="color:#a6e22e">will</span> <span style="color:#a6e22e">be</span> <span style="color:#a6e22e">ignored</span>, <span style="color:#a6e22e">and</span> <span style="color:#a6e22e">an</span> <span style="color:#a6e22e">empty</span> <span style="color:#a6e22e">message</span> <span style="color:#a6e22e">aborts</span> <span style="color:#a6e22e">the</span> <span style="color:#a6e22e">commit</span>.<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span>#<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span># <span style="color:#a6e22e">Date</span>:      <span style="color:#a6e22e">Tue</span> <span style="color:#a6e22e">Apr</span> <span style="color:#ae81ff">16</span> <span style="color:#ae81ff">22</span>:<span style="color:#ae81ff">11</span>:<span style="color:#ae81ff">55</span> <span style="color:#ae81ff">2019</span> +<span style="color:#ae81ff">0800</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span>#<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span># <span style="color:#a6e22e">interactive</span> <span style="color:#a6e22e">rebase</span> <span style="color:#a6e22e">in</span> <span style="color:#a6e22e">progress</span>; <span style="color:#a6e22e">onto</span> <span style="color:#ae81ff">7</span><span style="color:#a6e22e">add34f</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span># <span style="color:#a6e22e">Last</span> <span style="color:#a6e22e">commands</span> <span style="color:#a6e22e">done</span> (<span style="color:#ae81ff">4</span> <span style="color:#a6e22e">commands</span> <span style="color:#a6e22e">done</span>):<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span>#    <span style="color:#a6e22e">squash</span> <span style="color:#a6e22e">e9340ff</span> <span style="color:#a6e22e">the</span> <span style="color:#a6e22e">commit</span> <span style="color:#a6e22e">messages</span> <span style="color:#a6e22e">tend</span> <span style="color:#a6e22e">to</span> <span style="color:#a6e22e">get</span> <span style="color:#a6e22e">worse</span> <span style="color:#a6e22e">on</span> <span style="color:#a6e22e">the</span> <span style="color:#a6e22e">experimental</span> <span style="color:#a6e22e">branch</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span>#    <span style="color:#a6e22e">squash</span> <span style="color:#a6e22e">aed6944</span> <span style="color:#a6e22e">running</span> <span style="color:#a6e22e">out</span> <span style="color:#a6e22e">of</span> <span style="color:#a6e22e">good</span> <span style="color:#a6e22e">commit</span> <span style="color:#a6e22e">messages</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span># <span style="color:#a6e22e">No</span> <span style="color:#a6e22e">commands</span> <span style="color:#a6e22e">remaining</span>.<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span># <span style="color:#a6e22e">You</span> <span style="color:#a6e22e">are</span> <span style="color:#a6e22e">currently</span> <span style="color:#a6e22e">rebasing</span> <span style="color:#a6e22e">branch</span> <span style="color:#e6db74">&#39;apple&#39;</span> <span style="color:#a6e22e">on</span> <span style="color:#e6db74">&#39;7add34f&#39;</span>.<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span>#<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span># <span style="color:#a6e22e">Changes</span> <span style="color:#a6e22e">to</span> <span style="color:#a6e22e">be</span> <span style="color:#a6e22e">committed</span>:<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span>#       <span style="color:#a6e22e">modified</span>:   <span style="color:#a6e22e">README</span>.<span style="color:#a6e22e">md</span><span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span>#</code></pre></div>
+<p><code>:wq</code> and we are done!</p>
+
+<p>Now we can just checkout master, get up to sync with the rest of the team with <code>git pull -r</code> and then merge our apple branch back in, vowing to practice good TBD and keep our commits small and sweet.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">% git checkout master
+Switched to branch <span style="color:#e6db74">&#39;master&#39;</span>
+Your branch is up to date with <span style="color:#e6db74">&#39;origin/master&#39;</span>.
+
+% git pull -r
+Already up to date.
+Current branch master is up to date.
+
+% git merge apple</code></pre></div><ul class="pa0">
+  
+</ul>
+<div class="mt6">
+        
+      </div>
+    </section>
+
+    <aside class="w-30-l mt6-l">
+
+
+
+
+</aside>
+
+  </article>
+
+    </main>
+    <footer class="bg-black bottom-0 w-100 pa3" role="contentinfo">
+  <div class="flex justify-between">
+  <a class="f4 fw4 hover-white no-underline white-70 dn dib-ns pv2 ph3" href="http://paul-ylz.github.io/" >
+    &copy; 2019 paul-ylz
+  </a>
+    <div>
+
+
+
+
+
+
+
+
+
+
+</div>
+  </div>
+</footer>
+
+    
+
+  <script src="/dist/js/app.3fc0f988d21662902933.js"></script>
+
+
+  </body>
+</html>
