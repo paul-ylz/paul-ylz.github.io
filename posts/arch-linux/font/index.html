@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    
+    <title>paul-ylz  | Fonts in Arch</title>
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="generator" content="Hugo 0.55.0" />
+    
+    
+      <META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW">
+    
+
+    
+    
+      <link href="/dist/css/app.955516233bcafa4d2a1c13cea63c7b50.css" rel="stylesheet">
+    
+
+    
+
+    
+      
+    
+
+    
+
+    <meta property="og:title" content="Fonts in Arch" />
+<meta property="og:description" content="It&rsquo;s pretty easy to set font in the Virtual Console. pacman -S terminus-font setfont ter-v32n
+Voila, eyes saved.
+I found it a bit trickier setting the font within X / dwm / st.
+On the T460S I used X with dwm as the window manager, and st (simple terminal) to get the all important tty. Initially, the fonts inside my ttys were screwy - as in microscopic and also the kerning was totally wack." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://paul-ylz.github.io/posts/arch-linux/font/" />
+<meta property="article:published_time" content="2018-11-05T17:49:21&#43;08:00"/>
+<meta property="article:modified_time" content="2018-11-05T17:49:21&#43;08:00"/>
+
+<meta itemprop="name" content="Fonts in Arch">
+<meta itemprop="description" content="It&rsquo;s pretty easy to set font in the Virtual Console. pacman -S terminus-font setfont ter-v32n
+Voila, eyes saved.
+I found it a bit trickier setting the font within X / dwm / st.
+On the T460S I used X with dwm as the window manager, and st (simple terminal) to get the all important tty. Initially, the fonts inside my ttys were screwy - as in microscopic and also the kerning was totally wack.">
+
+
+<meta itemprop="datePublished" content="2018-11-05T17:49:21&#43;08:00" />
+<meta itemprop="dateModified" content="2018-11-05T17:49:21&#43;08:00" />
+<meta itemprop="wordCount" content="235">
+
+
+
+<meta itemprop="keywords" content="" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Fonts in Arch"/>
+<meta name="twitter:description" content="It&rsquo;s pretty easy to set font in the Virtual Console. pacman -S terminus-font setfont ter-v32n
+Voila, eyes saved.
+I found it a bit trickier setting the font within X / dwm / st.
+On the T460S I used X with dwm as the window manager, and st (simple terminal) to get the all important tty. Initially, the fonts inside my ttys were screwy - as in microscopic and also the kerning was totally wack."/>
+
+  </head>
+
+  <body class="ma0 avenir bg-near-white">
+
+    
+   
+  
+
+  <header>
+    <div class="bg-black">
+      <nav class="pv3 ph3 ph4-ns" role="navigation">
+  <div class="flex-l justify-between items-center center">
+    <a href="http://paul-ylz.github.io/" class="f3 fw2 hover-white no-underline white-90 dib">
+      paul-ylz
+    </a>
+    <div class="flex-l items-center">
+      
+
+      
+      
+
+
+
+
+
+
+
+
+
+
+
+    </div>
+  </div>
+</nav>
+
+    </div>
+  </header>
+
+
+
+    <main class="pb7" role="main">
+      
+  
+  <article class="flex-l flex-wrap justify-between mw9 center ph3">
+
+    <header class="mt4 w-100">
+      <p class="f6 b helvetica tracked">
+          
+        POSTS
+      </p>
+      <h1 class="f1 athelas mb1">Fonts in Arch</h1>
+      
+      <time class="f6 mv4 dib tracked" datetime="2018-11-05T17:49:21&#43;08:00">November 5, 2018</time>      
+      
+      
+    </header>
+
+    <section class="nested-copy-line-height lh-copy serif f4 nested-links nested-img mid-gray pr4-l w-two-thirds-l">
+
+<p>It&rsquo;s pretty easy to set font in the Virtual Console.
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">pacman -S terminus-font
+setfont ter-v32n</code></pre></div></p>
+
+<p>Voila, eyes saved.</p>
+
+<p>I found it a bit trickier setting the font within X / dwm / st.</p>
+
+<p>On the T460S I used X with dwm as the window manager, and st (simple terminal) to get the all important tty.
+Initially, the fonts inside my ttys were screwy - as in microscopic and also the kerning was totally wack.</p>
+
+<p>I managed to recompile st using a different font size but for some reason was unable to change the font to terminus, or to anything else.
+I kept getting some other sans-serif font with weird kerning.</p>
+
+<p>Thanks to the good folks <code>Khorne</code>, <code>MrElendig</code> on IRC (chat.freenode.net #archlinux-newbie) I learnt how to properly identify the font in st&rsquo;s config.h.</p>
+
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">fc-list | grep -i terminus</code></pre></div>
+
+<p>This would give me a number of lines that look like:</p>
+
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">/usr/share/fonts/misc/ter-x32n.pcf.gz: xos4 Terminus:style<span style="color:#f92672">=</span>Regular</code></pre></div>
+
+<p>The key here is &ldquo;xos4 Terminus&rdquo;, which is the name by which to identify the font with in config.h.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">static char *font <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;xos4 Terminus:pixelsize=24:antialias=true:autohint=true&#34;</span>;</code></pre></div>
+<p>Compile and reinstall</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># generate new checksum</span>
+makepkg -g » PKGBUILD
+<span style="color:#75715e"># force, install</span>
+makepkg -fi</code></pre></div>
+<h2 id="other-commands-discovered">Other commands discovered</h2>
+
+<p>List installed fonts</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">fc-list</code></pre></div>
+<p>fc-match matches a given font to the argument.
+Basically if fc-match does not recognize your argument, your font won&rsquo;t be recognized.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">fc-match terminus
+<span style="color:#f92672">=</span>&gt; 1048013t.pfa: <span style="color:#e6db74">&#34;Luxi Sans&#34;</span> <span style="color:#e6db74">&#34;Regular&#34;</span></code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">fc-match <span style="color:#e6db74">&#34;xos4 Terminus&#34;</span>
+<span style="color:#f92672">=</span>&gt; ter-x12n.pcf.gz: <span style="color:#e6db74">&#34;xos4 Terminus&#34;</span> <span style="color:#e6db74">&#34;Regular&#34;</span></code></pre></div>
+<p>Cool!</p>
+<ul class="pa0">
+  
+</ul>
+<div class="mt6">
+        
+      </div>
+    </section>
+
+    <aside class="w-30-l mt6-l">
+
+
+
+
+</aside>
+
+  </article>
+
+    </main>
+    <footer class="bg-black bottom-0 w-100 pa3" role="contentinfo">
+  <div class="flex justify-between">
+  <a class="f4 fw4 hover-white no-underline white-70 dn dib-ns pv2 ph3" href="http://paul-ylz.github.io/" >
+    &copy; 2019 paul-ylz
+  </a>
+    <div>
+
+
+
+
+
+
+
+
+
+
+</div>
+  </div>
+</footer>
+
+    
+
+  <script src="/dist/js/app.3fc0f988d21662902933.js"></script>
+
+
+  </body>
+</html>
