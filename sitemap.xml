@@ -4,19 +4,24 @@
   
   <url>
     <loc>http://paul-ylz.github.io/posts/</loc>
-    <lastmod>2019-04-16T22:29:28+08:00</lastmod>
+    <lastmod>2019-05-04T13:58:23+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://paul-ylz.github.io/posts/react-native-localized-server-errors/</loc>
+    <lastmod>2019-05-04T13:58:23+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://paul-ylz.github.io/</loc>
+    <lastmod>2019-05-04T13:58:23+08:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>http://paul-ylz.github.io/posts/software-dev/squash-rebase/</loc>
     <lastmod>2019-04-16T22:29:28+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://paul-ylz.github.io/</loc>
-    <lastmod>2019-04-16T22:29:28+08:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>

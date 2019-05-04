@@ -6,10 +6,19 @@
     <description>Recent content on paul-ylz</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 16 Apr 2019 22:29:28 +0800</lastBuildDate>
+    <lastBuildDate>Sat, 04 May 2019 13:58:23 +0800</lastBuildDate>
     
 	<atom:link href="http://paul-ylz.github.io/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>React Native Localized Server Errors</title>
+      <link>http://paul-ylz.github.io/posts/react-native-localized-server-errors/</link>
+      <pubDate>Sat, 04 May 2019 13:58:23 +0800</pubDate>
+      
+      <guid>http://paul-ylz.github.io/posts/react-native-localized-server-errors/</guid>
+      <description>An example of localizing server error responses and displaying them using React Native&amp;rsquo;s &lt;code&gt;Alert.alert&lt;/code&gt;. This implementation assumes Redux-Form</description>
+    </item>
     
     <item>
       <title>Squash &amp; Merge</title>
