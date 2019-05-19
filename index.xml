@@ -6,17 +6,26 @@
     <description>Recent content on paul-ylz</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 04 May 2019 13:58:23 +0800</lastBuildDate>
+    <lastBuildDate>Sun, 19 May 2019 18:51:34 +0800</lastBuildDate>
     
 	<atom:link href="http://paul-ylz.github.io/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
+      <title>Docker Read Only</title>
+      <link>http://paul-ylz.github.io/posts/software-dev/docker-read-only/</link>
+      <pubDate>Sun, 19 May 2019 18:51:34 +0800</pubDate>
+      
+      <guid>http://paul-ylz.github.io/posts/software-dev/docker-read-only/</guid>
+      <description>Recently on a new project, our infra team had temporarily relaxed the security rules on our Kubernetes cluster to allow us to get things going quicker - a strategy I would vote against in the future. The new security rules would require our containers to run as unprivileged user (versus running as root, which is the docker default), as well as run with a read only root filesystem. It is straight forward enough to run containers as non root user&amp;hellip; we just need a line to RUN addusr, include the --chown appuser:appuser with all the COPY directives in our dockerfile, and finish nicely with USER appuser or something like that.</description>
+    </item>
+    
+    <item>
       <title>React Native Localized Server Errors</title>
-      <link>http://paul-ylz.github.io/posts/react-native-localized-server-errors/</link>
+      <link>http://paul-ylz.github.io/posts/software-dev/react-native-localized-server-errors/</link>
       <pubDate>Sat, 04 May 2019 13:58:23 +0800</pubDate>
       
-      <guid>http://paul-ylz.github.io/posts/react-native-localized-server-errors/</guid>
+      <guid>http://paul-ylz.github.io/posts/software-dev/react-native-localized-server-errors/</guid>
       <description>An example of localizing server error responses and displaying them using React Native&amp;rsquo;s &lt;code&gt;Alert.alert&lt;/code&gt;. This implementation assumes Redux-Form</description>
     </item>
     

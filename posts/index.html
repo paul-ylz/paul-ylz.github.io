@@ -36,7 +36,7 @@
 <meta property="og:type" content="website" />
 <meta property="og:url" content="http://paul-ylz.github.io/posts/" />
 
-<meta property="og:updated_time" content="2019-05-04T13:58:23&#43;08:00"/>
+<meta property="og:updated_time" content="2019-05-19T18:51:34&#43;08:00"/>
 
 <meta itemprop="name" content="Posts">
 <meta itemprop="description" content="">
@@ -98,7 +98,22 @@
   <div class="bg-white mb3 pa4 gray overflow-hidden">
     <span class="f6 db">Posts</span>
     <h1 class="f3 near-black">
-      <a href="/posts/react-native-localized-server-errors/" class="link black dim">
+      <a href="/posts/software-dev/docker-read-only/" class="link black dim">
+        Docker Read Only
+      </a>
+    </h1>
+    <div class="nested-links f5 lh-copy nested-copy-line-height">
+      Recently on a new project, our infra team had temporarily relaxed the security rules on our Kubernetes cluster to allow us to get things going quicker - a strategy I would vote against in the future. The new security rules would require our containers to run as unprivileged user (versus running as root, which is the docker default), as well as run with a read only root filesystem. It is straight forward enough to run containers as non root user&hellip; we just need a line to RUN addusr, include the --chown appuser:appuser with all the COPY directives in our dockerfile, and finish nicely with USER appuser or something like that.
+    </div>
+  </div>
+</div>
+</div>
+      
+        <div class="relative w-100 w-30-l mb4 bg-white"><div class="relative w-100 mb4 bg-white nested-copy-line-height">
+  <div class="bg-white mb3 pa4 gray overflow-hidden">
+    <span class="f6 db">Posts</span>
+    <h1 class="f3 near-black">
+      <a href="/posts/software-dev/react-native-localized-server-errors/" class="link black dim">
         React Native Localized Server Errors
       </a>
     </h1>

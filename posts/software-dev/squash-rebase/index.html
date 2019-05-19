@@ -41,7 +41,7 @@
 
 <meta itemprop="datePublished" content="2019-04-16T22:29:28&#43;08:00" />
 <meta itemprop="dateModified" content="2019-04-16T22:29:28&#43;08:00" />
-<meta itemprop="wordCount" content="1012">
+<meta itemprop="wordCount" content="1032">
 
 
 
@@ -109,7 +109,7 @@
 
     <section class="nested-copy-line-height lh-copy serif f4 nested-links nested-img mid-gray pr4-l w-two-thirds-l">
 
-<p>At work we do TBD (Trunk Based Development), which means that we always push code to the master branch. Sometimes, pushing to master is not convenient because we are in the middle of figuring out a solution and some wild trial and error is the only way we can figure out how to move forward. We often want others in our team to be able to join forces with us and help to figure out the problem, and so the most convenient thing to do is to push the existing state of our code. However, when master branch is connected to a build pipeline, we find ourselves wanting to create an experimental branch to work on. Typically this branch is going to have several commits, with terrible commit messages which tell the story of our desperate attempts to fix a tricky task.</p>
+<p>At work we do TBD (Trunk Based Development), which means that we always push code to the master branch. Sometimes, pushing to master is not convenient because we are in the middle of figuring out a solution and some wild trial and error is the only way we can figure out how to move forward. We often want others in our team to be able to join forces with us and help to figure out the problem, and so the most convenient thing to do is to push the existing state of our code. However, when master branch is connected to a build pipeline, we need to create an experimental branch to work on. Typically this branch is going to have several commits, with terrible commit messages which tell the story of our desperate attempts to fix a tricky task.</p>
 
 <p>In this case, all is not lost and we can still maintain some level of dignity by squashing these commits into a single commit and then merging our experimental branch to master so that it looks like a single, tidy commit. Squash and merge is the strategy!</p>
 
@@ -182,7 +182,7 @@ ed6944 <span style="color:#f92672">(</span>HEAD -&gt; apple, origin/apple<span s
 </span><span style="color:#960050;background-color:#1e0010"></span># <span style="color:#a6e22e">Note</span> <span style="color:#a6e22e">that</span> <span style="color:#a6e22e">empty</span> <span style="color:#a6e22e">commits</span> <span style="color:#a6e22e">are</span> <span style="color:#a6e22e">commented</span> <span style="color:#a6e22e">out</span></code></pre></div>
 <p><code>:wq</code> to write and quit.</p>
 
-<p>Now git gives us a change to rewrite our commit messages. We&rsquo;ll condense our hasty messages into an official and officious commit message that exudes quality.</p>
+<p>Now git gives us a chance to rewrite our commit messages. We&rsquo;ll condense our hasty messages into an officious commit message that exudes quality.</p>
 
 <p>BEFORE:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-VimL" data-lang="VimL"># <span style="color:#a6e22e">This</span> <span style="color:#a6e22e">is</span> <span style="color:#a6e22e">a</span> <span style="color:#a6e22e">combination</span> <span style="color:#a6e22e">of</span> <span style="color:#ae81ff">4</span> <span style="color:#a6e22e">commits</span>.<span style="color:#960050;background-color:#1e0010">
@@ -246,7 +246,9 @@ Your branch is up to date with <span style="color:#e6db74">&#39;origin/master&#3
 Already up to date.
 Current branch master is up to date.
 
-% git merge apple</code></pre></div><ul class="pa0">
+% git merge apple</code></pre></div>
+<p>If we do not want the typical &ldquo;Merged to master&rdquo; commit message that git provides, we can always amend it with <code>git commit --amend</code>.</p>
+<ul class="pa0">
   
 </ul>
 <div class="mt6">

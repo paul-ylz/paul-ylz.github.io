@@ -36,7 +36,7 @@
 <meta property="og:type" content="website" />
 <meta property="og:url" content="http://paul-ylz.github.io/" />
 
-<meta property="og:updated_time" content="2019-05-04T13:58:23&#43;08:00"/>
+<meta property="og:updated_time" content="2019-05-19T18:51:34&#43;08:00"/>
 
 <meta itemprop="name" content="paul-ylz">
 <meta itemprop="description" content="">
@@ -124,14 +124,38 @@
       
       <div class="blah w-100">
         <h1 class="f3 fw1 athelas mt0 lh-title">
-          <a href="/posts/react-native-localized-server-errors/" class="color-inherit dim link">
+          <a href="/posts/software-dev/docker-read-only/" class="color-inherit dim link">
+            Docker Read Only
+            </a>
+        </h1>
+        <div class="f6 f5-l lh-copy nested-copy-line-height nested-links">
+          Recently on a new project, our infra team had temporarily relaxed the security rules on our Kubernetes cluster to allow us to get things going quicker - a strategy I would vote against in the future. The new security rules would require our containers to run as unprivileged user (versus running as root, which is the docker default), as well as run with a read only root filesystem. It is straight forward enough to run containers as non root user&hellip; we just need a line to RUN addusr, include the --chown appuser:appuser with all the COPY directives in our dockerfile, and finish nicely with USER appuser or something like that.
+        </div>
+          <a href="/posts/software-dev/docker-read-only/" class="ba b--moon-gray bg-light-gray br2 color-inherit dib f7 hover-bg-moon-gray link mt2 ph2 pv1">read more</a>
+        
+      </div>
+    </div>
+  </div>
+</article>
+
+          </div>
+        
+          <div class="relative w-100 mb4">
+            
+<article class="bb b--black-10">
+  <div class="db pv4 ph3 ph0-l no-underline dark-gray">
+    <div class="flex flex-column flex-row-ns">
+      
+      <div class="blah w-100">
+        <h1 class="f3 fw1 athelas mt0 lh-title">
+          <a href="/posts/software-dev/react-native-localized-server-errors/" class="color-inherit dim link">
             React Native Localized Server Errors
             </a>
         </h1>
         <div class="f6 f5-l lh-copy nested-copy-line-height nested-links">
           An example of localizing server error responses and displaying them using React Native&rsquo;s <code>Alert.alert</code>. This implementation assumes Redux-Form
         </div>
-          <a href="/posts/react-native-localized-server-errors/" class="ba b--moon-gray bg-light-gray br2 color-inherit dib f7 hover-bg-moon-gray link mt2 ph2 pv1">read more</a>
+          <a href="/posts/software-dev/react-native-localized-server-errors/" class="ba b--moon-gray bg-light-gray br2 color-inherit dib f7 hover-bg-moon-gray link mt2 ph2 pv1">read more</a>
         
       </div>
     </div>
@@ -164,40 +188,18 @@
 
           </div>
         
-          <div class="relative w-100 mb4">
-            
-<article class="bb b--black-10">
-  <div class="db pv4 ph3 ph0-l no-underline dark-gray">
-    <div class="flex flex-column flex-row-ns">
-      
-      <div class="blah w-100">
-        <h1 class="f3 fw1 athelas mt0 lh-title">
-          <a href="/posts/arch-linux/suckless-copy-paste/" class="color-inherit dim link">
-            Copying and Pasting in Arch linux with Suckless Simple Terminal
-            </a>
-        </h1>
-        <div class="f6 f5-l lh-copy nested-copy-line-height nested-links">
-          Patch Simple Terminal so that there is just a single clipboard. https://st.suckless.org/patches/clipboard/
-If like me, you had never patched a C file before&hellip;
-cd src/st-0.8.1 wget https://st.suckless.org/patches/clipboard/st-clipboard-0.8.1.diff patch &lt; st-clipboard-0.8.1.diff Amazing!
-If like me, maybe you also weren&rsquo;t aware that copy and paste inside ST uses the keys: Control-Shift C (copy) and Control-Shift V (paste)
-Install Chris Down&rsquo;s clipmenu (AUR) clipnotify (AUR) is a dependency of clipmenu. With AUR, dependencies that are also AUR / community sourced have to be installed manually.
-        </div>
-          <a href="/posts/arch-linux/suckless-copy-paste/" class="ba b--moon-gray bg-light-gray br2 color-inherit dib f7 hover-bg-moon-gray link mt2 ph2 pv1">read more</a>
-        
-      </div>
-    </div>
-  </div>
-</article>
-
-          </div>
-        
       </section>
 
       
       <section class="w-100">
         <h1 class="f3">More</h1>
         
+        
+          <h2 class="f5 fw4 mb4 dib mr3">
+            <a href="/posts/arch-linux/suckless-copy-paste/" class="link black dim">
+              Copying and Pasting in Arch linux with Suckless Simple Terminal
+            </a>
+          </h2>
         
           <h2 class="f5 fw4 mb4 dib mr3">
             <a href="/posts/arch-linux/bluetooth/" class="link black dim">
@@ -214,12 +216,6 @@ Install Chris Down&rsquo;s clipmenu (AUR) clipnotify (AUR) is a dependency of cl
           <h2 class="f5 fw4 mb4 dib mr3">
             <a href="/posts/arch-linux/font/" class="link black dim">
               Fonts in Arch
-            </a>
-          </h2>
-        
-          <h2 class="f5 fw4 mb4 dib mr3">
-            <a href="/posts/arch-linux/dropbox-with-cryptomator/" class="link black dim">
-              Installing Dropbox w Cryptomator
             </a>
           </h2>
         
